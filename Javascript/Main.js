@@ -38,10 +38,11 @@ window.onShow = function() {
 	Data.setAppPref("IP", "10.66.77.5");
 	  
 	  
-  if ( Player.init() && Audio.init() && Display.init() && Server.init() )
+  if ( Player.init() && Audio.init() && Display.init() && VideoOverlay.init() && Server.init() )
   {
       Display.setVolume( Audio.getVolume() );
       Display.setTime(0);
+      VideoOverlay.hide();
       
       Player.stopCallback = function()
       {
@@ -291,7 +292,11 @@ Main.setFullScreenMode = function()
 {
     if (this.mode != this.FULLSCREEN)
     {
-        //Display.hide();
+        Display.hide();
+        VideoOverlay.show();
+
+        VideoOverlay.setVolume( Audio.getVolume() );
+        VideoOverlay.setTime(0);
         
         Player.setFullscreen();
         
@@ -304,7 +309,8 @@ Main.setWindowMode = function()
     if (this.mode != this.WINDOW)
     {
         Display.show();
-        
+        VideoOverlay.hide();
+
         Player.setWindow();
         
         this.mode = this.WINDOW;

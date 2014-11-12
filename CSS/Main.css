@@ -449,3 +449,20 @@ body
     height:20px;
     font-size:20px;
 }
+
+#video_overlay_navi
+{
+	position: absolute;
+	top: 470px;
+	height: 45px;
+	width: 100%;
+    background-image: url("../Images/BgNavigator.png");
+    background-repeat:repeat-x;
+}
+
+#video_overlay_help_navi
+{
+    position:absolute;
+    left:75px; top:5px; 
+    width:785px; height:28px;
+}

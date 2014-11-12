@@ -240,6 +240,25 @@ Player.resumeVideo = function()
     Player.AVPlayer.resume();
 };
 
+
+/**
+ * http://www.samsungdforum.com/Guide/?FolderName=tec00118&FileName=index.html
+ * 
+ * Avoiding potential problems with FF and REW operations on video content
+Some of the multimedia containers can not handle the JumpForward function correctly, 
+
+if the jump target is bigger than the contents length. For that reason it is recommended to
+ check if the operation will not reach beyond the available range in the FF and REW keyhandling functions.
+ 
+For instance, if the total video length is A, current playback time: B and jump parameter: C,
+ before calling the jump function, please check if (A-B) <= C. If this condition is met, it is 
+ recommended to block the jump operation, to avoid potential player errors.
+ 
+Please also note that the FF and REW functions may not work properly during the video buffering. 
+In order to eliminate any potential player errors related to that issue, we strongly recommend to 
+block any FF and REW operations in the OnBufferingStart callback and activate them back in OnBufferingComplete.
+
+ */
 Player.skipForwardVideo = function(secs)
 {
     this.skipState = this.FORWARD;  
