@@ -74,7 +74,7 @@ window.onShow = function() {
 Main.onUnload = function()
 {
     Player.deinit();
-}
+};
 
 Main.updateCurrentVideo = function(move)
 {
@@ -83,12 +83,67 @@ Main.updateCurrentVideo = function(move)
     Display.setVideoListPosition(this.selectedVideo, move);
 
     Display.setDescription( Data.getVideoDescription(this.selectedVideo));
-}
+    
+    document.getElementById("movie_image").style.display="none";
+
+    var movieName = Data.getVideoNames()[this.selectedVideo];
+    var movieNameEncoded = encodeURI(Data.getVideoNames()[this.selectedVideo]);
+    
+    var cachedPosterURL = Data.getAppPref("poster_url-" + movieName);
+	if(cachedPosterURL){
+    	alert("Using cached URL: " + cachedPosterURL);
+	    document.getElementById("movie_image").src = cachedPosterURL;
+	    document.getElementById("movie_image").style.display="block";
+    } else {
+
+        theMovieDb.search.getMovie({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
+        theMovieDb.search.getTv({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
+    }
+    
+};
+
+function successCB(data) {
+    console.log("theMovieDb Success callback: " + data);
+    
+	var obj = JSON.parse(data);
+	var imageUrl = "";
+	
+	if (obj.results.length > 0) {
+		// http://image.tmdb.org/t/p/w500/hpt3aa5i0TrSAnEdl3VJrRrje8C.jpg
+		
+		poster_path = obj.results[0].poster_path;
+
+		if(obj.results[0].poster_path) {
+
+			imageUrl = theMovieDb.common.images_uri + "w500" + poster_path;
+			alert("obj.results[0]: " + obj.results[0]);
+			alert("imageUrl: " + imageUrl);
+			
+			// TODO: Save cache URL path
+			var name = obj.results[0].original_name;
+			if (!name) 
+				name = obj.results[0].original_title;
+			
+			Data.setAppPref("poster_url-" + name, imageUrl);
+			
+		    document.getElementById("movie_image").src = imageUrl;
+		    document.getElementById("movie_image").style.display="block";
+		}
+
+	}
+	alert("JSON results: " + obj.results);
+
+};
+
+function errorCB(data) {
+	console.log("theMovieDb Error callback: " + data);
+};
+    
 
 Main.enableKeys = function()
 {
     document.getElementById("anchor").focus();
-}
+};
 
 Main.keyDown = function()
 {

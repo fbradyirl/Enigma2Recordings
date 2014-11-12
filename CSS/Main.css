@@ -466,3 +466,11 @@ body
     left:75px; top:5px; 
     width:785px; height:28px;
 }
+
+#movie_image
+{
+    position:absolute;
+    left:40px; top:60px;
+    width:400px; height:420px;
+    
+}

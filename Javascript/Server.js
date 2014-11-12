@@ -38,53 +38,56 @@ function loadMovies(xml)
     var videoSummarys = [ ];
     
     var index = 0;
-  $(xml).find("e2movie").each(function()
-  {
-		
-	  var titleElement = 				($(this).find("e2title").text());
-      var linkElement = base + encodeURI($(this).find("e2filename").text());
-      var descriptionElement = 			($(this).find("e2description").text());
-      var descriptionExtendedElement = 	($(this).find("e2descriptionextended").text());
-      var serviceNameElement = 			($(this).find("e2servicename").text());
-      var lengthElement = 				($(this).find("e2length").text());
-      var timeElement = 				($(this).find("e2time").text());
-
-
-      
-    
-      if (titleElement && linkElement)
-      {
-    	  videoNames[index] = titleElement;
-          videoURLs[index] = linkElement;                        	
-          videoDescriptions[index] = descriptionElement;
-          
-          if (serviceNameElement)
-        	  videoServiceNames[index] = serviceNameElement;
-
-          if (descriptionExtendedElement)
-        	  videoDescriptionsExtended[index] = descriptionExtendedElement;
-          
-          if (lengthElement)
-        	  videoLengths[index] = lengthElement;
-          
-          if (timeElement)
-        	  videoTimes[index] = timeElement;
-          	  var summary =  getFormattedDate(timeElement) + "  [" + serviceNameElement + "]";
-          	  videoSummarys[index] = summary;
-
-          
-//          alert("#videoName: 	"+ titleElement);
-//          alert("	#videoURL:  	"+ videoURLs[index] );
-//          alert("	#serviceNameElement: 	"+ serviceNameElement);
-//          alert("	#descriptionExtendedElement: 	"+ descriptionExtendedElement);
-//          alert("	#lengthElement: 	"+ lengthElement);
-//          alert("	#timeElement: 	"+ timeElement);
-//          alert("	#summary: 	"+ summary);
-
-      }
-  
-	  index ++;
-  });
+	  $(xml).find("e2movie").each(function()
+	  {
+			
+		  var titleElement = 				($(this).find("e2title").text());
+	      var linkElement = base + encodeURI($(this).find("e2filename").text());
+	      var descriptionElement = 			($(this).find("e2description").text());
+	      var descriptionExtendedElement = 	($(this).find("e2descriptionextended").text());
+	      var serviceNameElement = 			($(this).find("e2servicename").text());
+	      var lengthElement = 				($(this).find("e2length").text());
+	      var timeElement = 				($(this).find("e2time").text());
+	
+	
+	      
+	    
+	      if (titleElement && linkElement)
+	      {
+	    	  videoNames[index] = titleElement;
+	          videoURLs[index] = linkElement;                        	
+	          videoDescriptions[index] = descriptionElement;
+	          
+	          if (serviceNameElement)
+	        	  videoServiceNames[index] = serviceNameElement;
+	
+	          if (descriptionExtendedElement)
+	        	  videoDescriptionsExtended[index] = descriptionExtendedElement;
+	          
+	          if (lengthElement)
+	        	  videoLengths[index] = lengthElement;
+	          
+	          if (timeElement)
+	        	  videoTimes[index] = timeElement;
+	          	  var summary =  getFormattedDate(timeElement) + "  [" + serviceNameElement + "]";
+	          	  videoSummarys[index] = summary;
+	
+	          
+	//          alert("#videoName: 	"+ titleElement);
+	//          alert("	#videoURL:  	"+ videoURLs[index] );
+	//          alert("	#serviceNameElement: 	"+ serviceNameElement);
+	//          alert("	#descriptionExtendedElement: 	"+ descriptionExtendedElement);
+	//          alert("	#lengthElement: 	"+ lengthElement);
+	//          alert("	#timeElement: 	"+ timeElement);
+	//          alert("	#summary: 	"+ summary);
+	
+	      }
+	  
+		  index ++;
+		  
+		  if (index == 11)
+			  return false;
+	  });
  
   // All done.
   
@@ -107,13 +110,7 @@ function loadMovies(xml)
 }
 // From http://www.webdevelopersnotes.com/tips/html/finding_the_number_of_seconds_and_milliseconds.php3
 function getFormattedDate(date)
-{
-	var tvInfo = webapis.tv.info;
-	var timezone = tvInfo.getTimeZone();
-	alert("time zone index :"+timezone.timezone);
-	alert("time zone offset :"+timezone.offset);
-	alert("time zone dst :"+timezone.dst);
-	
+{	
 	var d = new Date(date * 1000);
 	date_formatted = "";
 	
