@@ -96,8 +96,8 @@ Main.updateCurrentVideo = function(move)
 	    document.getElementById("movie_image").style.display="block";
     } else {
 
-        theMovieDb.search.getMovie({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
-        theMovieDb.search.getTv({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
+        theMovieDb.search.getMulti({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
+        //theMovieDb.search.getTv({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
     }
     
 };

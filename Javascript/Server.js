@@ -49,9 +49,6 @@ function loadMovies(xml)
 	      var lengthElement = 				($(this).find("e2length").text());
 	      var timeElement = 				($(this).find("e2time").text());
 	
-	
-	      
-	    
 	      if (titleElement && linkElement)
 	      {
 	    	  videoNames[index] = titleElement;
@@ -85,8 +82,24 @@ function loadMovies(xml)
 	  
 		  index ++;
 		  
-		  if (index == 11)
-			  return false;
+		  // This is enough to show the UI
+		  if (index == 11){
+			  Data.setVideoNames(videoNames);
+			  Data.setVideoURLs(videoURLs);
+			  Data.setVideoDescriptions(videoDescriptions);
+			  Data.setVideoDescriptionsExtended(videoDescriptionsExtended);
+			  Data.setVideoServiceNames(videoServiceNames);
+			  Data.setVideoLengths(videoLengths);
+			  Data.setVideoTimes(videoTimes);
+			  Data.setVideoSummarys(videoSummarys);
+			  
+			  alert("#videoNames.length: (initial load)		" + videoNames.length);
+
+			  if (this.dataReceivedCallback)
+			  {
+			      this.dataReceivedCallback();    /* Notify all data is received and stored */
+			  }
+		  }
 	  });
  
   // All done.
@@ -100,7 +113,7 @@ function loadMovies(xml)
   Data.setVideoTimes(videoTimes);
   Data.setVideoSummarys(videoSummarys);
   
-  alert("#videoNames.length:		" + videoNames.length);
+  alert("#videoNames.length: (final load)		" + videoNames.length);
 
   if (this.dataReceivedCallback)
   {

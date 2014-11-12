@@ -1325,6 +1325,21 @@ theMovieDb.search = {
             error
         );
     },
+    getMulti: function (options, success, error) {
+        'use strict';
+        
+        theMovieDb.common.validateRequired(arguments, 3, options, ["query"]);
+        
+        theMovieDb.common.validateCallbacks([success, error]);
+        
+        theMovieDb.common.client(
+            {
+                url: "search/multi" + theMovieDb.common.generateQuery(options)
+            },
+            success,
+            error
+        );
+    },
     getKeyword: function (options, success, error) {
         'use strict';
         
