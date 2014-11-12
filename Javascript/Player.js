@@ -109,9 +109,6 @@ Player.onAVPlayObtained = function(avplay) {
 //	
 	console.log("Player initialised: " + Player.AVPlayer);
 
-
-
-	
 };
 
 Player.onGetAVPlayError = function() {
@@ -182,6 +179,7 @@ Player.playVideo = function()
         	Player.AVPlayer.play(Player.onSuccess, Player.onError); // 콘텐츠 재생
 			//index_saver = content_index; //현재 재생한 영상의 index를 기억하게 하기위해 변수 index_saver에 할당
             
+        	
         	// For some reason, I need to call this again, otherwise PIP doesnt show video
         	//this.setWindow();
 
@@ -303,7 +301,15 @@ Player.onBufferingProgress = function(percent)
 Player.onBufferingComplete = function()
 {
     Display.status("Playing");
-    switch(this.skipState)
+    
+
+	alert("#totalNumOfSubtitle: " + Player.AVPlayer.totalNumOfSubtitle);
+	alert("#totalNumOfAudio: " + Player.AVPlayer.totalNumOfAudio);
+	
+	// BBC reports totalNumOfAudio: 2 TODO: Show UI to choose audio track!
+	// SD reports totalNumOfAudio: 0
+    
+	switch(this.skipState)
     {
         case this.FORWARD:
             document.getElementById("forward").style.opacity = '1.0';

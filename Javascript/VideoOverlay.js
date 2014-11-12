@@ -77,16 +77,7 @@ VideoOverlay.setTime = function(time)
     
     widgetAPI.putInnerHTML(timeElement, timeHTML);
     
-}
-
-VideoOverlay.setVolume = function(level)
-{
-    document.getElementById("volumeBar").style.width = level + "%";
-    
-    var volumeElement = document.getElementById("volumeInfo");
-
-    widgetAPI.putInnerHTML(volumeElement, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Audio.getVolume());
-}
+};
  
 
 VideoOverlay.hide = function()

@@ -87,23 +87,43 @@ Main.updateCurrentVideo = function(move)
     document.getElementById("movie_image").style.display="none";
 
     var movieName = Data.getVideoNames()[this.selectedVideo];
-    var movieNameEncoded = encodeURI(Data.getVideoNames()[this.selectedVideo]);
+    var movieNameEncoded = encodeURI(movieName);
     
+   
     var cachedPosterURL = Data.getAppPref("poster_url-" + movieName);
 	if(cachedPosterURL){
     	alert("Using cached URL: " + cachedPosterURL);
 	    document.getElementById("movie_image").src = cachedPosterURL;
 	    document.getElementById("movie_image").style.display="block";
     } else {
-
         theMovieDb.search.getMulti({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
-        //theMovieDb.search.getTv({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
     }
+	
+	
+	 // Preload next movie
+    var nextMovieName = Data.getVideoNames()[this.selectedVideo + 1];
+    if(nextMovieName){
+    	var nextMovieNameEncoded = encodeURI(nextMovieName);
+    
+    	var cachedPosterURL = Data.getAppPref("poster_url-" + nextMovieName);
+    	if(!cachedPosterURL){
+            theMovieDb.search.getMulti({"query":"" + nextMovieNameEncoded + ""}, successPreloadCB, errorCB);
+        }
+    }
+    
     
 };
 
+function successPreloadCB(data) {
+    console.log("theMovieDb preload Success callback: " + data);
+    successCommon(data, false);
+}
 function successCB(data) {
     console.log("theMovieDb Success callback: " + data);
+    successCommon(data, true);
+}
+
+function successCommon(data, show) {
     
 	var obj = JSON.parse(data);
 	var imageUrl = "";
@@ -126,8 +146,10 @@ function successCB(data) {
 			
 			Data.setAppPref("poster_url-" + name, imageUrl);
 			
-		    document.getElementById("movie_image").src = imageUrl;
-		    document.getElementById("movie_image").style.display="block";
+			if (show){
+				document.getElementById("movie_image").src = imageUrl;
+		    	document.getElementById("movie_image").style.display="block";
+			}
 		}
 
 	}
@@ -326,7 +348,7 @@ Main.selectPreviousVideo = function(up)
     }
 
     this.updateCurrentVideo(up);
-}
+};
 
 Main.setFullScreenMode = function()
 {
@@ -335,14 +357,13 @@ Main.setFullScreenMode = function()
         Display.hide();
         VideoOverlay.show();
 
-        VideoOverlay.setVolume( Audio.getVolume() );
         VideoOverlay.setTime(0);
         
         Player.setFullscreen();
         
         this.mode = this.FULLSCREEN;
     }
-}
+};
 
 Main.setWindowMode = function()
 {
@@ -355,7 +376,7 @@ Main.setWindowMode = function()
         
         this.mode = this.WINDOW;
     }
-}
+};
 
 Main.toggleMode = function()
 {
