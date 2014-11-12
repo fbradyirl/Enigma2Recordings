@@ -1,6 +1,5 @@
 var Display =
 {
-    statusDiv : null,
     FIRSTIDX : 0,
     LASTIDX : 4,
     currentWindow : 0,
@@ -16,14 +15,7 @@ var Display =
 Display.init = function()
 {
     var success = true;
-    
-    this.statusDiv = document.getElementById("status");
-
-    if (!this.statusDiv)
-    {
-        success = false;
-    }
-    
+        
     return success;
 };
 
@@ -100,17 +92,9 @@ Display.setTime = function(time)
 Display.status = function(status)
 {
     alert(status);
-    widgetAPI.putInnerHTML(this.statusDiv, status);
+   // widgetAPI.putInnerHTML(this.statusDiv, status);
 }
 
-Display.setVolume = function(level)
-{
-    document.getElementById("volumeBar").style.width = level + "%";
-    
-    var volumeElement = document.getElementById("volumeInfo");
-
-    widgetAPI.putInnerHTML(volumeElement, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Audio.getVolume());
-}
 
 Display.setVideoList = function(nameList, summaryList)
 {
@@ -190,7 +174,7 @@ Display.setVideoListPosition = function(position, move)
                 widgetAPI.putInnerHTML(this.videoList[i], listHTML);
                 
                 alert("#putInnerHTML1 " + Data.getVideoSummarys()[i]);
-                widgetAPI.putInnerHTML(this.subvideoList[i], Data.getVideoMetaSummary[i]);
+                widgetAPI.putInnerHTML(this.subvideoList[i], Data.getVideoSummarys()[i]);
                 
                 
                 if(i == this.currentWindow)

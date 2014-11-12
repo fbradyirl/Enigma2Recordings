@@ -1,13 +1,5 @@
 var VideoOverlay =
 {
-    statusDiv : null,
-    FIRSTIDX : 0,
-    LASTIDX : 4,
-    currentWindow : 0,
-
-    SELECTOR : 0,
-    LIST : 1,
-    times : 0,
     
 };
 

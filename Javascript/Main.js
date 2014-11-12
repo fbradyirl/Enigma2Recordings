@@ -5,16 +5,13 @@ var Main =
 {
     selectedVideo : 0,
     mode : 0,
-    mute : 0,
     
     UP : 0,
     DOWN : 1,
 
     WINDOW : 0,
     FULLSCREEN : 1,
-    
-    NMUTE : 0,
-    YMUTE : 1
+
 };
 
 Main.onLoad = function()
@@ -40,15 +37,18 @@ window.onShow = function() {
 	  
   if ( Player.init() && Audio.init() && Display.init() && VideoOverlay.init() && Server.init() )
   {
-      Display.setVolume( Audio.getVolume() );
-      Display.setTime(0);
+	  VideoOverlay.setTime(0);
       VideoOverlay.hide();
       
       Player.stopCallback = function()
       {
           /* Return to windowed mode when video is stopped
               (by choice or when it reaches the end) */
-          Main.setWindowMode();
+         // Main.setWindowMode();
+          
+
+          Display.show();
+          VideoOverlay.hide();
       };
 
       // Start retrieving data from server
@@ -126,8 +126,6 @@ Main.keyDown = function()
             } else {
                 alert("Toggling out of fullscreen.");
                 this.toggleMode();
-                //Player.stopVideo();
-
             }
             break;
 
@@ -188,20 +186,7 @@ Main.keyDown = function()
             alert("N7");
             if(Player.getState() != Player.PAUSED)
                 Player.skipBackwardVideo(60*5);
-            break;
-        case tvKey.KEY_VOL_UP:
-        case tvKey.KEY_PANEL_VOL_UP:
-            alert("VOL_UP");
-            if(this.mute == 0)
-                Audio.setRelativeVolume(0);
-            break;
-            
-        case tvKey.KEY_VOL_DOWN:
-        case tvKey.KEY_PANEL_VOL_DOWN:
-            alert("VOL_DOWN");
-            if(this.mute == 0)
-                Audio.setRelativeVolume(1);
-            break;      
+            break;   
 
         case tvKey.KEY_DOWN:
             alert("DOWN");
@@ -220,13 +205,9 @@ Main.keyDown = function()
               this.toggleMode();
             else
               this.handlePlayKey();
-            break;
-        
-        case tvKey.KEY_MUTE:
-            alert("MUTE");
-            this.muteMode();
-            break;
             
+            break;
+                    
         default:
             alert("Unhandled key");
             break;
@@ -239,10 +220,14 @@ Main.handlePlayKey = function()
     {
         case Player.STOPPED:
             Player.playVideo();
+            this.toggleMode();
+
             break;
             
         case Player.PAUSED:
             Player.resumeVideo();
+            this.toggleMode();
+
             break;
             
         default:
@@ -311,7 +296,7 @@ Main.setWindowMode = function()
         Display.show();
         VideoOverlay.hide();
 
-        Player.setWindow();
+        Player.stopVideo();
         
         this.mode = this.WINDOW;
     }
@@ -340,45 +325,3 @@ Main.toggleMode = function()
 }
 
 
-Main.setMuteMode = function()
-{
-    if (this.mute != this.YMUTE)
-    {
-        var volumeElement = document.getElementById("volumeInfo");
-        Audio.plugin.Execute("SetUserMute",true);
-        document.getElementById("volumeBar").style.backgroundImage = "url(Images/videoBox/muteBar.png)";
-        document.getElementById("volumeIcon").style.backgroundImage = "url(Images/videoBox/mute.png)";
-        widgetAPI.putInnerHTML(volumeElement, "MUTE");
-        this.mute = this.YMUTE;
-    }
-}
-
-Main.noMuteMode = function()
-{
-    if (this.mute != this.NMUTE)
-    {
-    	Audio.plugin.Execute("SetUserMute",false);
-        document.getElementById("volumeBar").style.backgroundImage = "url(Images/videoBox/volumeBar.png)";
-        document.getElementById("volumeIcon").style.backgroundImage = "url(Images/videoBox/volume.png)";
-        Display.setVolume( Audio.getVolume() );
-        this.mute = this.NMUTE;
-    }
-}
-
-Main.muteMode = function()
-{
-    switch (this.mute)
-    {
-        case this.NMUTE:
-            this.setMuteMode();
-            break;
-            
-        case this.YMUTE:
-            this.noMuteMode();
-            break;
-            
-        default:
-            alert("ERROR: unexpected mode in muteMode");
-            break;
-    }
-}

@@ -15,30 +15,30 @@ var Player =
 
 var bufferingCB = {
 	onbufferingstart : function () {
-//		console.log("buffering started");
+		console.log("buffering started");
 		Player.setTotalTime();
 		Player.onBufferingStart();
     },
     onbufferingprogress: function (percent) {
-//        console.log("on buffering : " + percent);
+        console.log("buffering : " + percent);
         Player.onBufferingProgress(percent);
     },
     onbufferingcomplete: function () {
-//        console.log("buffering completely");
+        console.log("buffering complete");
         Player.onBufferingComplete();
     }
 };
 
 var playCB = {
     oncurrentplaytime: function (time) {
-//        console.log("playing time : " + time);
+        console.log("playing time : " + time);
         Player.setCurTime(time);
     },
     onresolutionchanged: function (width, height) {
-//        console.log("resolution changed : " + width + ", " + height);
+        console.log("resolution changed : " + width + ", " + height);
     },
     onstreamcompleted: function () {
-//        console.log("streaming completed");
+        console.log("streaming completed");
     },
     onerror: function (error) {
         console.log(error.name);
@@ -69,25 +69,49 @@ Player.onAVPlayObtained = function(avplay) {
 	//AVPlayer 모듈을 초기화하는 콜백함수
 	//모듈을 호출하는 onAVPlayObtained 함수는 AVPlay 인스턴스를 인자로 받는다.
 	alert('Getting avplay object successfully');
+	
 	Player.AVPlayer = avplay;
+
 	Player.AVPlayer.init({
-		containerID : 'player_container',
+		//containerID : 'player_container',
+		zIndex: -1,
 		bufferingCallback : bufferingCB, 
 		playCallback : playCB,
-		displayRect: {
-		  top: 0,
-		  left: 0,
-			width: 960,
-			height: 540
-		},
-		autoRatio: false, 
+//		displayRect: {
+//		  top: 0,
+//		  left: 0,
+//	        width: 1920,
+//	        height: 1080
+//		},
+		autoRatio: true, 
 	});
-	console.log(Player.AVPlayer);
-	//Display.hide();
 	
+	/**
+	 * Resolution Guide
+	 * http://www.samsungdforum.com/Guide/?FolderName=c07&FileName=index.html
+	 * 
+	 * Aspect ratio SD thread
+	 * http://www.samsungdforum.com/SamsungDForum/ForumView/f0cd8ea6961d50c3?forumID=88555f42acdd3243&currentPage=1&searchText=avplayer&selectcontents=1&selectPageSize=20&sorting_target=CreateDate&sorting_type=desc
+	 */
+//	Player.AVPlayer.setDisplayRect({
+//        top: 0,
+//        left: 0,
+//        width: 960,
+//        height: 540
+//	});
+//	
+//	Player.AVPlayer.setDisplayArea({
+//        top: 0,
+//        left: 0,
+//        width: 960,
+//        height: 540
+//	});
+//	
+	console.log("Player initialised: " + Player.AVPlayer);
+
+
+
 	
-	//이를 화면 레이어 전역에서 제어할 수 있게끔 로컬에 선언된 변수에 바인딩해서 AVPlayer 객체를 생성한 후 init 함수를 호출해 플레이어 구동 준비를 완료한다.
-	//Initializes avplay with the specified option parameter. This has to be called before any ather avplay function.
 };
 
 Player.onGetAVPlayError = function() {
@@ -108,45 +132,24 @@ Player.deinit = function()
 	alert("Player deinit !!! " );
 }
 
-Player.setWindow = function()
-{
-    //this.plugin.Execute("SetDisplayArea",458, 58, 472, 270);
-	alert("Player.setWindow !!! " );
-
-	Player.AVPlayer.setDisplayRect({
-		top: 58,
-		left: 458,
-		width: 960,
-		height: 540
-	});
-	
-	Player.AVPlayer.setDisplayArea({
-        top: 58,
-        left: 458,
-		width: 960,
-		height: 540
-});
-
-};
-
 Player.setFullscreen = function()
 {
 	alert("Player.setFullscreen !!! " );
    
 	//this.plugin.Execute("SetDisplayArea",0, 0, 960, 540);
-	Player.AVPlayer.setDisplayRect({
-		top: 0,
-		left: 0,
-        width: 1920,
-        height: 1080
-	});
-	
-	Player.AVPlayer.setDisplayArea({
-        top: 0,
-        left: 0,
-        width: 1920,
-        height: 1080
-});
+//	Player.AVPlayer.setDisplayRect({
+//		top: 0,
+//		left: 0,
+//        width: 1920,
+//        height: 1080
+//	});
+//	
+//	Player.AVPlayer.setDisplayArea({
+//        top: 0,
+//        left: 0,
+//        width: 1920,
+//        height: 1080
+//});
 
 };
 
@@ -165,14 +168,13 @@ Player.playVideo = function()
     else
     {
         this.state = this.PLAYING;
-        document.getElementById("play").style.opacity = '0.2';
-        document.getElementById("stop").style.opacity = '1.0';
-        document.getElementById("pause").style.opacity = '1.0';
-        document.getElementById("forward").style.opacity = '1.0';
-        document.getElementById("rewind").style.opacity = '1.0';
-        Display.status("Playing");
-        this.setWindow();
-        //this.plugin.Execute("Play",this.url );
+//        document.getElementById("play").style.opacity = '0.2';
+//        document.getElementById("stop").style.opacity = '1.0';
+//        document.getElementById("pause").style.opacity = '1.0';
+//        document.getElementById("forward").style.opacity = '1.0';
+//        document.getElementById("rewind").style.opacity = '1.0';
+//        Display.status("Playing");
+        //this.setWindow();
         
         try{
 			//jQuery('#player_container').addClass('show'); //화면상에 player_container(스크린이라고 생각) 나타냄 
@@ -194,12 +196,12 @@ Player.playVideo = function()
 Player.pauseVideo = function()
 {
     this.state = this.PAUSED;
-    document.getElementById("play").style.opacity = '1.0';
-    document.getElementById("stop").style.opacity = '1.0';
-    document.getElementById("pause").style.opacity = '0.2';
-    document.getElementById("forward").style.opacity = '0.2';
-    document.getElementById("rewind").style.opacity = '0.2';
-    Display.status("Pause");
+//    document.getElementById("play").style.opacity = '1.0';
+//    document.getElementById("stop").style.opacity = '1.0';
+//    document.getElementById("pause").style.opacity = '0.2';
+//    document.getElementById("forward").style.opacity = '0.2';
+//    document.getElementById("rewind").style.opacity = '0.2';
+//    Display.status("Pause");
     Player.AVPlayer.pause();
 }
 
@@ -208,11 +210,11 @@ Player.stopVideo = function()
     if (this.state != this.STOPPED)
     {
         this.state = this.STOPPED;
-        document.getElementById("play").style.opacity = '1.0';
-        document.getElementById("stop").style.opacity = '0.2';
-        document.getElementById("pause").style.opacity = '0.2';
-        document.getElementById("forward").style.opacity = '0.2';
-        document.getElementById("rewind").style.opacity = '0.2';
+//        document.getElementById("play").style.opacity = '1.0';
+//        document.getElementById("stop").style.opacity = '0.2';
+//        document.getElementById("pause").style.opacity = '0.2';
+//        document.getElementById("forward").style.opacity = '0.2';
+//        document.getElementById("rewind").style.opacity = '0.2';
         Display.status("Stop");
         Player.AVPlayer.stop();
         Display.setTime(0);
@@ -231,11 +233,11 @@ Player.stopVideo = function()
 Player.resumeVideo = function()
 {
     this.state = this.PLAYING;
-    document.getElementById("play").style.opacity = '0.2';
-    document.getElementById("stop").style.opacity = '1.0';
-    document.getElementById("pause").style.opacity = '1.0';
-    document.getElementById("forward").style.opacity = '1.0';
-    document.getElementById("rewind").style.opacity = '1.0';
+//    document.getElementById("play").style.opacity = '0.2';
+//    document.getElementById("stop").style.opacity = '1.0';
+//    document.getElementById("pause").style.opacity = '1.0';
+//    document.getElementById("forward").style.opacity = '1.0';
+//    document.getElementById("rewind").style.opacity = '1.0';
     Display.status("Playing");
     Player.AVPlayer.resume();
 };
@@ -311,28 +313,28 @@ Player.onBufferingComplete = function()
             document.getElementById("rewind").style.opacity = '1.0';
             break;
     }
-}
+};
 
 Player.setCurTime = function(time)
 {
-	Display.setTime(time);
-}
+	VideoOverlay.setTime(time);
+};
 
 Player.setTotalTime = function()
 {
 	console.log('setTotalTime : ' + Player.AVPlayer.getDuration());
-    Display.setTotalTime(Player.AVPlayer.getDuration());
-}
+	VideoOverlay.setTotalTime(Player.AVPlayer.getDuration());
+};
 
 onServerError = function()
 {
     Display.status("Server Error!");
-}
+};
 
 OnNetworkDisconnected = function()
 {
     Display.status("Network Error!");
-}
+};
 
 getBandwidth = function(bandwidth) { alert("getBandwidth " + bandwidth); }
 
