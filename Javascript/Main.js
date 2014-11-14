@@ -1,5 +1,6 @@
 var widgetAPI = new Common.API.Widget();
 var tvKey = new Common.API.TVKeyValue();
+// add pluginAPI
 
 var Main =
 {
@@ -29,8 +30,7 @@ var GetIPAddress = function(){
 };
 
 window.onShow = function() {
-	
-
+    
 	 // if (Data.getAppPref("IP"))
 	Data.setAppPref("IP", "10.66.77.5");
 	  
@@ -44,7 +44,7 @@ window.onShow = function() {
       {
           /* Return to windowed mode when video is stopped
               (by choice or when it reaches the end) */
-         // Main.setWindowMode();
+          Main.setWindowMode();
           
 
           Display.show();
@@ -78,38 +78,41 @@ Main.onUnload = function()
 
 Main.updateCurrentVideo = function(move)
 {
-    Player.setVideoURL( Data.getVideoURL(this.selectedVideo) );
-    
-    Display.setVideoListPosition(this.selectedVideo, move);
+	if (Data.getVideoURL(this.selectedVideo)){
+		 Player.setVideoURL( Data.getVideoURL(this.selectedVideo) );
+		    
+		    Display.setVideoListPosition(this.selectedVideo, move);
 
-    Display.setDescription( Data.getVideoDescription(this.selectedVideo));
-    
-    document.getElementById("movie_image").style.display="none";
+		    Display.setDescription( Data.getVideoDescription(this.selectedVideo));
+		    
+		    document.getElementById("movie_image").style.display="none";
 
-    var movieName = Data.getVideoNames()[this.selectedVideo];
-    var movieNameEncoded = encodeURI(movieName);
-    
+		    var movieName = Data.getVideoNames()[this.selectedVideo];
+		    var movieNameEncoded = encodeURI(movieName);
+		    
+		   
+		    var cachedPosterURL = Data.getAppPref("poster_url-" + movieName);
+			if(cachedPosterURL){
+		    	alert("Using cached URL: " + cachedPosterURL);
+			    document.getElementById("movie_image").src = cachedPosterURL;
+			    document.getElementById("movie_image").style.display="block";
+		    } else {
+		        theMovieDb.search.getMulti({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
+		    }
+			
+			
+			 // Preload next movie
+		    var nextMovieName = Data.getVideoNames()[this.selectedVideo + 1];
+		    if(nextMovieName){
+		    	var nextMovieNameEncoded = encodeURI(nextMovieName);
+		    
+		    	var cachedPosterURL = Data.getAppPref("poster_url-" + nextMovieName);
+		    	if(!cachedPosterURL){
+		            theMovieDb.search.getMulti({"query":"" + nextMovieNameEncoded + ""}, successPreloadCB, errorCB);
+		        }
+		    }
+	}
    
-    var cachedPosterURL = Data.getAppPref("poster_url-" + movieName);
-	if(cachedPosterURL){
-    	alert("Using cached URL: " + cachedPosterURL);
-	    document.getElementById("movie_image").src = cachedPosterURL;
-	    document.getElementById("movie_image").style.display="block";
-    } else {
-        theMovieDb.search.getMulti({"query":"" + movieNameEncoded + ""}, successCB, errorCB);
-    }
-	
-	
-	 // Preload next movie
-    var nextMovieName = Data.getVideoNames()[this.selectedVideo + 1];
-    if(nextMovieName){
-    	var nextMovieNameEncoded = encodeURI(nextMovieName);
-    
-    	var cachedPosterURL = Data.getAppPref("poster_url-" + nextMovieName);
-    	if(!cachedPosterURL){
-            theMovieDb.search.getMulti({"query":"" + nextMovieNameEncoded + ""}, successPreloadCB, errorCB);
-        }
-    }
     
     
 };
@@ -373,7 +376,8 @@ Main.setWindowMode = function()
         VideoOverlay.hide();
 
         Player.stopVideo();
-        
+        Player.setWindow();
+
         this.mode = this.WINDOW;
     }
 };

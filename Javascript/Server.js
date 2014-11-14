@@ -13,16 +13,23 @@ Server.init = function()
 
 Server.fetchVideoList = function()
 {
+
 	$.ajax({
 	    type: "GET",
 	    url: "http://" + Data.getAppPref("IP") + "/web/movielist",
 	    dataType: "xml",
 	    success: loadMovies,
+	    error: loadMoviesFail,
 		context:  this
 	  });
 
 };
 
+function loadMoviesFail(xml)
+{
+	alert('loadMoviesFail from: ' + xml);
+
+}
 function loadMovies(xml)
 {
 
@@ -213,13 +220,7 @@ function getFormattedDate(date)
 	   }
 
 	var time = curr_hour + ":" + curr_min + a_p;
-	
-	
 	var result = time + " " + date_formatted;
-	
-	// Tuesday 11th November 2014  10 : 08 PM
-	
-    alert(result); 
 
 	return result;
 };

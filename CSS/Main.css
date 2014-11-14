@@ -24,20 +24,6 @@ body
      width: 960px; height: 540px;
 }
 
-#player_container {
-	position: absolute;
-	width: 960px;
-	height: 540px;
-	opacity: 0;
- 	left: 0;
- 	top: 0;
-}
-
-#player_container.show {
-	z-index:5;
-	opacity: 1;
-}
-
 #logo
 {
 	position: absolute;
@@ -103,7 +89,7 @@ body
 #timeInfo
 {
     position:absolute;
-    left:470px; top:8px;
+    left:770px; top:5px;
     width:60px; height:16px;
     
     text-align:right;
@@ -415,7 +401,7 @@ body
 {
 	position: absolute;
 	top: 470px;
-	height: 75px;
+	height: 235px;
 	width: 100%;
     background-image: url("../Images/BgNavigator.png");
     background-repeat:repeat-x;

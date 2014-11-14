@@ -1,3 +1,8 @@
+var video_width=1280;
+var video_height=720;
+var ui_width=960;
+var ui_height=540;
+	
 var Player =
 {
 	AVPlayer : null,
@@ -51,13 +56,8 @@ Player.init = function()
     alert("success vale :  " + success);    
     this.state = this.STOPPED;
     try{
-		var playerInstance = webapis.avplay;
+    	var playerInstance = webapis.avplay;
 		webapis.avplay.getAVPlay(Player.onAVPlayObtained, Player.onGetAVPlayError);
-		
-		//playerInstance는 단순히 AVPlayer의 인스턴스를 가져와서 getAVPlay 함수를 호출하는데 사용할뿐.
-		//getAVPlay함수가 정상적으로 호출되면, 함께 전달한 onAVPlayerObtained라는 콜백함수도 호출되며,
-		//이 함수에서 실제적인 AVPlayer 모듈을 불러온다.
-		//추가로 AVPlayer모듈을 불러올 때 발생할 수 있는 에러를 처리할 수 있는 콜백함수도 함께 전달한다.
 		
 	}catch(e){
 		alert('######getAVplay Exception :[' +e.code + '] ' + e.message);
@@ -71,19 +71,18 @@ Player.onAVPlayObtained = function(avplay) {
 	alert('Getting avplay object successfully');
 	
 	Player.AVPlayer = avplay;
-
 	Player.AVPlayer.init({
 		//containerID : 'player_container',
 		zIndex: -1,
 		bufferingCallback : bufferingCB, 
 		playCallback : playCB,
-//		displayRect: {
-//		  top: 0,
-//		  left: 0,
-//	        width: 1920,
-//	        height: 1080
-//		},
-		autoRatio: true, 
+		displayRect: {
+		  top: 0,
+		  left: 0,
+	        width: ui_width,
+	        height: ui_height
+		},
+		autoRatio: false, 
 	});
 	
 	/**
@@ -93,23 +92,12 @@ Player.onAVPlayObtained = function(avplay) {
 	 * Aspect ratio SD thread
 	 * http://www.samsungdforum.com/SamsungDForum/ForumView/f0cd8ea6961d50c3?forumID=88555f42acdd3243&currentPage=1&searchText=avplayer&selectcontents=1&selectPageSize=20&sorting_target=CreateDate&sorting_type=desc
 	 */
-//	Player.AVPlayer.setDisplayRect({
-//        top: 0,
-//        left: 0,
-//        width: 960,
-//        height: 540
-//	});
-//	
-//	Player.AVPlayer.setDisplayArea({
-//        top: 0,
-//        left: 0,
-//        width: 960,
-//        height: 540
-//	});
-//	
+
+	
 	console.log("Player initialised: " + Player.AVPlayer);
 
 };
+
 
 Player.onGetAVPlayError = function() {
 	//AVPlayer 모듈을 초기화할 때 발생하는 에러를 처리하기 위한 함수
@@ -129,24 +117,44 @@ Player.deinit = function()
 	alert("Player deinit !!! " );
 }
 
+Player.setWindow = function()
+{
+	alert("Player.setWindow !!! " );
+   
+	Player.AVPlayer.setDisplayRect({
+		top: 0,
+		left: 0,
+        width: ui_width,
+        height: ui_height
+	});
+	
+	Player.AVPlayer.setDisplayArea({
+        top: 0,
+        left: 0,
+        width: ui_width,
+        height: ui_height
+	});
+
+};
+
 Player.setFullscreen = function()
 {
 	alert("Player.setFullscreen !!! " );
    
 	//this.plugin.Execute("SetDisplayArea",0, 0, 960, 540);
-//	Player.AVPlayer.setDisplayRect({
-//		top: 0,
-//		left: 0,
-//        width: 1920,
-//        height: 1080
-//	});
-//	
-//	Player.AVPlayer.setDisplayArea({
-//        top: 0,
-//        left: 0,
-//        width: 1920,
-//        height: 1080
-//});
+	Player.AVPlayer.setDisplayRect({
+		top: 0,
+		left: 0,
+        width: video_width,
+        height: video_height
+	});
+	
+	Player.AVPlayer.setDisplayArea({
+        top: 0,
+        left: 0,
+        width: video_width,
+        height: video_height
+	});
 
 };
 
@@ -174,7 +182,6 @@ Player.playVideo = function()
         //this.setWindow();
         
         try{
-			//jQuery('#player_container').addClass('show'); //화면상에 player_container(스크린이라고 생각) 나타냄 
         	Player.AVPlayer.open(this.url); 	// 재생할 미디어 콘텐츠 설정
         	Player.AVPlayer.play(Player.onSuccess, Player.onError); // 콘텐츠 재생
 			//index_saver = content_index; //현재 재생한 영상의 index를 기억하게 하기위해 변수 index_saver에 할당

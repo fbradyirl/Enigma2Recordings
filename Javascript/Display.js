@@ -149,8 +149,12 @@ Display.setVideoListPosition = function(position, move)
     }
     else if((this.currentWindow!=this.LASTIDX && move==Main.DOWN) || (this.currentWindow!=this.FIRSTIDX && move==Main.UP))
     {
-        if(move == Main.DOWN)
-            this.currentWindow ++;
+    	alert("setVideoListPosition1");
+    	
+        if(move == Main.DOWN){
+            this.currentWindow ++; 
+            alert("setVideoListPosition2");
+        }
         else
             this.currentWindow --;
             
@@ -164,6 +168,8 @@ Display.setVideoListPosition = function(position, move)
     }
     else if(this.currentWindow == this.LASTIDX && move == Main.DOWN)
     {
+    	alert("setVideoListPosition3");
+    	
         if(position == this.FIRSTIDX)
         {
             this.currentWindow = this.FIRSTIDX;

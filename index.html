@@ -10,6 +10,7 @@
         <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
   		<script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/jquery.js"></script>
         <script type="text/javascript" src="$MANAGER_WIDGET/Common/webapi/1.0/webapis.js"></script>
+        
         <!-- Widget code -->
         <script language="javascript" type="text/javascript" src="Javascript/Data.js"></script>
         <script language="javascript" type="text/javascript" src="Javascript/Main.js"></script>
@@ -23,18 +24,21 @@
         <!-- Style sheets -->
         <link rel="stylesheet" href="CSS/Main.css" type="text/css">
 
-        <!-- Plugins -->
+		<!-- Plugins -->
         <object id="pluginPlayer1" border=0 classid="clsid:SAMSUNG-INFOLINK-SEF"></object>
         <object id="pluginAudio1" border=0 classid="clsid:SAMSUNG-INFOLINK-SEF"></object>
         <object id="pluginObjectTVMW1" border=0 classid="clsid:SAMSUNG-INFOLINK-SEF"></object>
         <object id='pluginObjectNetwork'    classid='clsid:SAMSUNG-INFOLINK-NETWORK'    style='opacity:0.0; background-color:#000000;width:0px;height:0px;'></object>
-                
+                  
+		 <!-- Volume OSD  http://tedshd.logdown.com/posts/177103-samsung-samrt-tv-volume-osd -->
+
+		
     </head>
 
     <body onload="Main.onLoad();" onunload="Main.onUnload();">
         <!-- Dummy anchor as focus for key events -->
         <a href='javascript:void(0);' id='anchor' onkeydown='Main.keyDown();'></a>
-
+		
         <!-- Layout begins -->
         <div id="player_container"></div>
         <div id="main">
@@ -60,7 +64,6 @@
                     <div id="subvideo4"></div>
                 </div>
                 
-                
                 <div id="previous"></div>
                 <div id="next"></div>
             </div> 
@@ -75,9 +78,7 @@
         
         
         <div id="video_overlay" class="hide">
-            <div id="logo">[movie name]</div>
-           
-            
+                       
             <div id="video_overlay_navi">
             	<div id="time">
                         <div id="progressBarBG">
@@ -86,14 +87,6 @@
                         <div id="timeInfo"></div>
                 </div>
 
-                    
-                <div id="video_overlay_help_navi">
-                    <img src="Images/navi/play.png"></img>
-                    <img src="Images/navi/stop.png"></img>
-                    <img src="Images/navi/pause.png"></img>
-                    <img src="Images/navi/rewind.png"></img>
-                    <img src="Images/navi/forward.png"></img><a class="style_navi"></a>
-                </div>
             </div>
         </div>
     </body>
