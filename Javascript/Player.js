@@ -189,6 +189,12 @@ Player.playVideo = function()
         	
         	// For some reason, I need to call this again, otherwise PIP doesnt show video
         	//this.setWindow();
+        	
+            VideoOverlay.show();
+            
+            setTimeout(function(){ 
+            	VideoOverlay.hide();
+            }, 5000);
 
 		}catch(e){
 			alert(e.message);
@@ -196,7 +202,7 @@ Player.playVideo = function()
         
         Audio.plugin.Execute("SetSystemMute",false); 
     }
-}
+};
 
 Player.pauseVideo = function()
 {
@@ -208,7 +214,9 @@ Player.pauseVideo = function()
 //    document.getElementById("rewind").style.opacity = '0.2';
 //    Display.status("Pause");
     Player.AVPlayer.pause();
-}
+    
+    VideoOverlay.show();
+};
 
 Player.stopVideo = function()
 {
@@ -245,6 +253,12 @@ Player.resumeVideo = function()
 //    document.getElementById("rewind").style.opacity = '1.0';
     Display.status("Playing");
     Player.AVPlayer.resume();
+    
+    VideoOverlay.show();
+    
+    setTimeout(function(){ 
+    	VideoOverlay.hide();
+    }, 5000);
 };
 
 
@@ -270,12 +284,24 @@ Player.skipForwardVideo = function(secs)
 {
     this.skipState = this.FORWARD;  
     Player.AVPlayer.jumpForward(secs);
+    
+    VideoOverlay.show();
+    
+    setTimeout(function(){ 
+    	VideoOverlay.hide();
+    }, 5000);
 };
 
 Player.skipBackwardVideo = function(secs)
 {
     this.skipState = this.REWIND;
     Player.AVPlayer.jumpBackward(secs);
+    
+    VideoOverlay.show();
+    
+    setTimeout(function(){ 
+    	VideoOverlay.hide();
+    }, 5000);
 };
 
 Player.getState = function()
@@ -288,22 +314,22 @@ Player.getState = function()
 Player.onBufferingStart = function()
 {
     Display.status("Buffering...");
-    switch(this.skipState)
-    {
-        case this.FORWARD:
-            document.getElementById("forward").style.opacity = '0.2';
-            break;
-        
-        case this.REWIND:
-            document.getElementById("rewind").style.opacity = '0.2';
-            break;
-    }
-}
+//    switch(this.skipState)
+//    {
+//        case this.FORWARD:
+//            document.getElementById("forward").style.opacity = '0.2';
+//            break;
+//        
+//        case this.REWIND:
+//            document.getElementById("rewind").style.opacity = '0.2';
+//            break;
+//    }
+};
 
 Player.onBufferingProgress = function(percent)
 {
     Display.status("Buffering:" + percent + "%");
-}
+};
 
 Player.onBufferingComplete = function()
 {
