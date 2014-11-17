@@ -24,7 +24,7 @@ Audio.init = function()
 Audio.setRelativeVolume = function(delta)
 {
     this.plugin.Execute("SetVolumeWithKey",delta);
-    Display.setVolume( this.getVolume() );
+    //Display.setVolume( this.getVolume() );
 
 };
 

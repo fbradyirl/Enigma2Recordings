@@ -100,8 +100,8 @@ body
 #progressBarBG
 {
     position:absolute;
-    left:4px; top:8px;
-    width:400px; height:8px;
+    left:4px; top:0px;
+    width:1000px; height:4px;
     background-image:url("../Images/videoBox/progressBarBG.png");
 }
 
@@ -109,7 +109,7 @@ body
 {
     position:absolute;
     left:0px; top:0px;
-    width:0%; height:8px;
+    width:0%; height:6px;
     background-image:url("../Images/videoBox/progressBar.png");
 }
 
@@ -405,6 +405,14 @@ body
 	width: 100%;
     background-image: url("../Images/BgNavigator.png");
     background-repeat:repeat-x;
+    
+    
+     -khtml-opacity:.50; 
+ 	-moz-opacity:.50; 
+ 	-ms-filter:"alpha(opacity=50)";
+	filter:alpha(opacity=50);
+  	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+  	opacity:.60; 
 }
 
 #video_overlay_help_navi

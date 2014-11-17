@@ -194,8 +194,8 @@ Player.playVideo = function()
         	// For some reason, I need to call this again, otherwise PIP doesnt show video
         	//this.setWindow();
         	
-        	// Show the overlay for 5 secs
-            VideoOverlay.show(5);
+        	// Show the overlay 
+            VideoOverlay.show(0);
 
 		}catch(e){
 			alert(e.message);
@@ -319,6 +319,9 @@ Player.getState = function()
 Player.onBufferingStart = function()
 {
     Display.status("Buffering...");
+    
+    VideoOverlay.show(0);
+    
 //    switch(this.skipState)
 //    {
 //        case this.FORWARD:
@@ -356,6 +359,10 @@ Player.onBufferingComplete = function()
         case this.REWIND:
             document.getElementById("rewind").style.opacity = '1.0';
             break;
+            
+        default:
+        	VideoOverlay.show(5);
+        	break;
     }
 };
 

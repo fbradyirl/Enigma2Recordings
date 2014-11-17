@@ -99,7 +99,7 @@ VideoOverlay.hide = function()
 VideoOverlay.show = function(timeout)
 {
     document.getElementById("video_overlay").style.display="block";
-    document.getElementById("video_overlay_navi").style.opacity = '0.6';
+    //document.getElementById("video_overlay_navi").style.opacity = '0.6';
     
     VideoOverlay.setHideTimer(timeout);
 };

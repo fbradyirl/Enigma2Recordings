@@ -6,13 +6,16 @@ var Main =
 {
     selectedVideo : 0,
     mode : 0,
-    
+    mute : 0,
+
     UP : 0,
     DOWN : 1,
 
     WINDOW : 0,
     FULLSCREEN : 1,
 
+    NMUTE : 0,
+    YMUTE : 1
 };
 
 Main.onLoad = function()
@@ -112,8 +115,6 @@ Main.updateCurrentVideo = function(move)
 		        }
 		    }
 	}
-   
-    
     
 };
 
@@ -282,6 +283,20 @@ Main.keyDown = function()
             this.selectPreviousVideo(this.UP);
             break;            
 
+        case tvKey.KEY_VOL_UP:
+        case tvKey.KEY_PANEL_VOL_UP:
+            alert("VOL_UP");
+            if(this.mute == 0)
+                Audio.setRelativeVolume(0);
+            break;
+            
+        case tvKey.KEY_VOL_DOWN:
+        case tvKey.KEY_PANEL_VOL_DOWN:
+            alert("VOL_DOWN");
+            if(this.mute == 0)
+                Audio.setRelativeVolume(1);
+            break;      
+            
         case tvKey.KEY_ENTER:
         case tvKey.KEY_PANEL_ENTER:
             alert("ENTER");
@@ -293,7 +308,12 @@ Main.keyDown = function()
               this.handlePlayKey();
             
             break;
-                    
+           
+        case tvKey.KEY_MUTE:
+            alert("MUTE");
+            this.muteMode();
+            break;
+            
         default:
             alert("Unhandled key");
             break;
@@ -407,6 +427,52 @@ Main.toggleMode = function()
             alert("ERROR: unexpected mode in toggleMode");
             break;
     }
-}
+};
+
+
+Main.setMuteMode = function()
+{
+    if (this.mute != this.YMUTE)
+    {
+        var volumeElement = document.getElementById("volumeInfo");
+        //Audio.plugin.SetSystemMute(true);
+        Audio.plugin.SetUserMute(true);
+        document.getElementById("volumeBar").style.backgroundImage = "url(Images/videoBox/muteBar.png)";
+        document.getElementById("volumeIcon").style.backgroundImage = "url(Images/videoBox/mute.png)";
+        widgetAPI.putInnerHTML(volumeElement, "MUTE");
+        this.mute = this.YMUTE;
+    }
+};
+
+Main.noMuteMode = function()
+{
+    if (this.mute != this.NMUTE)
+    {
+        Audio.plugin.SetUserMute(false); 
+        document.getElementById("volumeBar").style.backgroundImage = "url(Images/videoBox/volumeBar.png)";
+        document.getElementById("volumeIcon").style.backgroundImage = "url(Images/videoBox/volume.png)";
+       // Display.setVolume( Audio.getVolume() );
+        this.mute = this.NMUTE;
+    }
+};
+
+Main.muteMode = function()
+{
+    switch (this.mute)
+    {
+        case this.NMUTE:
+            this.setMuteMode();
+            break;
+            
+        case this.YMUTE:
+            this.noMuteMode();
+            break;
+            
+        default:
+            alert("ERROR: unexpected mode in muteMode");
+            break;
+    }
+};
+
 
 
