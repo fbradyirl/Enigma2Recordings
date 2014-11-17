@@ -3,6 +3,8 @@ var video_height=720;
 var ui_width=960;
 var ui_height=540;
 	
+var is_buffering = false;
+
 var Player =
 {
 	AVPlayer : null,
@@ -21,6 +23,7 @@ var Player =
 var bufferingCB = {
 	onbufferingstart : function () {
 		console.log("buffering started");
+		is_buffering = true;
 		Player.setTotalTime();
 		Player.onBufferingStart();
     },
@@ -30,6 +33,7 @@ var bufferingCB = {
     },
     onbufferingcomplete: function () {
         console.log("buffering complete");
+		is_buffering = false;
         Player.onBufferingComplete();
     }
 };
@@ -277,6 +281,12 @@ block any FF and REW operations in the OnBufferingStart callback and activate th
  */
 Player.skipForwardVideo = function(secs)
 {
+	if (is_buffering)
+	{
+		alert("Currently buffering! Blocking FF");
+		return;
+	}
+	
     this.skipState = this.FORWARD;  
     Player.AVPlayer.jumpForward(secs);
     
@@ -286,6 +296,12 @@ Player.skipForwardVideo = function(secs)
 
 Player.skipBackwardVideo = function(secs)
 {
+	if (is_buffering)
+	{
+		alert("Currently buffering! Blocking RW");
+		return;
+	}
+	
     this.skipState = this.REWIND;
     Player.AVPlayer.jumpBackward(secs);
     

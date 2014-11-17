@@ -100,14 +100,11 @@ VideoOverlay.show = function(timeout)
 {
     document.getElementById("video_overlay").style.display="block";
     document.getElementById("video_overlay_navi").style.opacity = '0.6';
-
-
     
     VideoOverlay.setHideTimer(timeout);
 };
 
-//timeout is the length of time to show the overlay
-//timeout of 0 means, never hide it
+
 VideoOverlay.setHideTimer = function(timeout)
 {
     if(timeout == 0)
