@@ -119,7 +119,7 @@ Player.onSuccess = function(){
 Player.deinit = function()
 {
 	alert("Player deinit !!! " );
-}
+};
 
 Player.setWindow = function()
 {

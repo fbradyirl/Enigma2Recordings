@@ -130,22 +130,26 @@ function successCommon(data, show) {
     
 	var obj = JSON.parse(data);
 	var imageUrl = "";
-	
-	if (obj.results.length > 0) {
-		// http://image.tmdb.org/t/p/w500/hpt3aa5i0TrSAnEdl3VJrRrje8C.jpg
-		
-		poster_path = obj.results[0].poster_path;
 
-		if(obj.results[0].poster_path) {
+	alert("JSON results: " + obj.results);
+	
+	for (i = 0, len = obj.results.length, text = ""; i < len; i++) { 
+	
+		result = obj.results[i];
+		
+		// http://image.tmdb.org/t/p/w500/hpt3aa5i0TrSAnEdl3VJrRrje8C.jpg
+		alert("result: " + result);
+		
+		poster_path = result.poster_path;
+
+		if(result.poster_path) {
 
 			imageUrl = theMovieDb.common.images_uri + "w500" + poster_path;
-			alert("obj.results[0]: " + obj.results[0]);
 			alert("imageUrl: " + imageUrl);
 			
-			// TODO: Save cache URL path
-			var name = obj.results[0].original_name;
+			var name = result.original_name;
 			if (!name) 
-				name = obj.results[0].original_title;
+				name = result.original_title;
 			
 			Data.setAppPref("poster_url-" + name, imageUrl);
 			
@@ -153,10 +157,10 @@ function successCommon(data, show) {
 				document.getElementById("movie_image").src = imageUrl;
 		    	document.getElementById("movie_image").style.display="block";
 			}
+			break;
 		}
 
 	}
-	alert("JSON results: " + obj.results);
 
 };
 
