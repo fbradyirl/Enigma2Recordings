@@ -190,11 +190,8 @@ Player.playVideo = function()
         	// For some reason, I need to call this again, otherwise PIP doesnt show video
         	//this.setWindow();
         	
-            VideoOverlay.show();
-            
-            setTimeout(function(){ 
-            	VideoOverlay.hide();
-            }, 5000);
+        	// Show the overlay for 5 secs
+            VideoOverlay.show(5);
 
 		}catch(e){
 			alert(e.message);
@@ -215,7 +212,8 @@ Player.pauseVideo = function()
 //    Display.status("Pause");
     Player.AVPlayer.pause();
     
-    VideoOverlay.show();
+    // Show the overlay
+    VideoOverlay.show(0);
 };
 
 Player.stopVideo = function()
@@ -254,11 +252,8 @@ Player.resumeVideo = function()
     Display.status("Playing");
     Player.AVPlayer.resume();
     
-    VideoOverlay.show();
-    
-    setTimeout(function(){ 
-    	VideoOverlay.hide();
-    }, 5000);
+    // Show the overlay for 5 secs
+    VideoOverlay.show(5);
 };
 
 
@@ -285,11 +280,8 @@ Player.skipForwardVideo = function(secs)
     this.skipState = this.FORWARD;  
     Player.AVPlayer.jumpForward(secs);
     
-    VideoOverlay.show();
-    
-    setTimeout(function(){ 
-    	VideoOverlay.hide();
-    }, 5000);
+    // Show the overlay for 5 secs
+    VideoOverlay.show(5);
 };
 
 Player.skipBackwardVideo = function(secs)
@@ -297,11 +289,8 @@ Player.skipBackwardVideo = function(secs)
     this.skipState = this.REWIND;
     Player.AVPlayer.jumpBackward(secs);
     
-    VideoOverlay.show();
-    
-    setTimeout(function(){ 
-    	VideoOverlay.hide();
-    }, 5000);
+    // Show the overlay for 5 secs
+    VideoOverlay.show(5);
 };
 
 Player.getState = function()

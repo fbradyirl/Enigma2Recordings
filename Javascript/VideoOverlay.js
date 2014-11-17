@@ -1,3 +1,6 @@
+var overlayTimer;
+var holdOverlay = false;
+
 var VideoOverlay =
 {
     
@@ -5,7 +8,6 @@ var VideoOverlay =
 
 VideoOverlay.init = function()
 {
-    
     return true;
 };
 
@@ -92,10 +94,35 @@ VideoOverlay.hide = function()
     document.getElementById("video_overlay").style.display="none";
 };
 
-VideoOverlay.show = function()
+// timeout is the length of time to show the overlay
+// timeout of 0 means, never hide it
+VideoOverlay.show = function(timeout)
 {
     document.getElementById("video_overlay").style.display="block";
-    document.getElementById("video_overlay").style.opacity = '0.6';
+    document.getElementById("video_overlay_navi").style.opacity = '0.6';
 
+
+    
+    VideoOverlay.setHideTimer(timeout);
+};
+
+//timeout is the length of time to show the overlay
+//timeout of 0 means, never hide it
+VideoOverlay.setHideTimer = function(timeout)
+{
+    if(timeout == 0)
+    	holdOverlay = true;
+    else 
+        holdOverlay = false;
+    
+	// Clear any previous one
+	if (overlayTimer)
+		clearInterval(overlayTimer);
+	
+	// Start the timer, with specified timeout
+	overlayTimer = setTimeout(function(){ 
+		if (!holdOverlay)
+			VideoOverlay.hide();
+  }, timeout * 1000);
 };
 

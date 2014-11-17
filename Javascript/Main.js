@@ -282,12 +282,8 @@ Main.keyDown = function()
         case tvKey.KEY_PANEL_ENTER:
             alert("ENTER");
             if(Player.getState() == Player.PLAYING){
-              //this.toggleMode();
-                VideoOverlay.show();
-            
-	            setTimeout(function(){ 
-	            	VideoOverlay.hide();
-	            }, 10000);
+            	// Show the overlay for ten secs
+                VideoOverlay.show(10);
             }
             else
               this.handlePlayKey();
@@ -364,11 +360,6 @@ Main.setFullScreenMode = function()
     if (this.mode != this.FULLSCREEN)
     {
         Display.hide();
-//        VideoOverlay.show();
-//        
-//        setTimeout(function(){ 
-//        	VideoOverlay.hide();
-//        }, 5000);
 
         VideoOverlay.setTime(0);
         
