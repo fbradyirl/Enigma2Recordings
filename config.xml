@@ -10,7 +10,7 @@
     <ListIcon>Images/icon/Tutorial_Video_85.png</ListIcon>
     <BigListIcon>Images/icon/Tutorial_Video_95.png</BigListIcon>
   
-    <ver>0.6</ver>
+    <ver>0.7</ver>
     <mgrver/>
     <fullwidget>y</fullwidget>
 	<movie>y</movie>
